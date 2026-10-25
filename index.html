@@ -11,190 +11,415 @@
 <link rel="icon" href="assets/fernando.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&family=Spectral:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: light;
-    --paper: #f5f6f8;
+    --night: #0e1a2f;
+    --night-2: #16264a;
+    --paper: #f3f5f8;
     --surface: #ffffff;
-    --ink: #17213a;
+    --ink: #142039;
     --muted: #5a6478;
-    --rule: #d9dee6;
-    --celeste: #3f86c8;
-    --sun: #c99212;
-    --measure: 62ch;
+    --muted-dark: #a7b3c7;
+    --rule: #dbe0e8;
+    --celeste: #6cb4ee;
+    --celeste-deep: #2f7cc0;
+    --sun: #e2a72e;
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
+    overflow-x: clip;
     background: var(--paper);
     color: var(--ink);
     font: 400 1.0625rem/1.65 "Public Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-  a { color: inherit; text-decoration-color: var(--celeste); text-decoration-thickness: 2px; text-underline-offset: 3px; }
-  a:hover { color: var(--celeste); }
-  a:focus-visible { outline: 3px solid var(--celeste); outline-offset: 3px; border-radius: 2px; }
-  h1, h2, h3 { font-family: "Spectral", Georgia, serif; font-weight: 600; line-height: 1.15; margin: 0; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--celeste); outline-offset: 3px; border-radius: 4px; }
+  h1, h2, h3 { font-family: "Bricolage Grotesque", "Public Sans", sans-serif; line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
   p { margin: 0 0 1em; }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+  /* Nav */
+  .nav { position: fixed; inset: 0 0 auto 0; z-index: 20; transition: background .3s, box-shadow .3s; }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .nav .me { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 600; }
+  .nav .me img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; opacity: 0; transition: opacity .3s; }
+  .nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .nav ul a { color: rgba(255,255,255,.82); text-decoration: none; font-weight: 500; font-size: .97rem; }
+  .nav ul a:hover { color: #fff; }
+  .nav.solid { background: rgba(14,26,47,.92); backdrop-filter: blur(10px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
+  .nav.solid .me img { opacity: 1; }
 
   /* Hero */
-  .hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 64px; align-items: center; padding: 88px 0 72px; }
-  .role { color: var(--muted); font-weight: 500; margin: 0 0 18px; }
-  .hero h1 { font-size: clamp(2.8rem, 6.5vw, 4.6rem); letter-spacing: -0.015em; }
-  .hero .lede { font-size: 1.25rem; max-width: 30ch; margin: 22px 0 32px; }
-  .links { display: flex; flex-wrap: wrap; gap: 12px 26px; font-weight: 600; }
-  .links a.primary { background: var(--ink); color: #fff; text-decoration: none; padding: 11px 20px; border-radius: 6px; margin-right: 6px; }
-  .links a.primary:hover { background: var(--celeste); color: #fff; }
-  .links a:not(.primary) { align-self: center; }
-  .photo { position: relative; justify-self: end; width: min(100%, 380px); }
-  .photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; }
-  .photo::before { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 2px solid var(--sun); border-radius: 10px; z-index: -1; }
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; background: radial-gradient(1200px 600px at 80% 20%, var(--night-2), var(--night) 60%); color: #fff; display: flex; align-items: center; overflow: hidden; padding: 110px 0 170px; }
+  .hero .wrap { position: relative; z-index: 2; display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: center; width: 100%; }
+  .hero .ask { font-family: "Bricolage Grotesque", sans-serif; font-weight: 500; font-size: clamp(1.3rem, 2.4vw, 1.75rem); color: var(--celeste); min-height: 2.6em; margin: 0 0 14px; }
+  .hero .ask .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--celeste); vertical-align: -0.15em; margin-left: 3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero h1 { font-size: clamp(3rem, 7.4vw, 6rem); font-weight: 800; }
+  .hero .sub { color: var(--muted-dark); font-size: 1.15rem; max-width: 34ch; margin: 26px 0 36px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 14px; }
+  .btn { display: inline-flex; align-items: center; padding: 13px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; transition: transform .2s, background .2s, color .2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.solid { background: var(--sun); color: var(--night); }
+  .btn.solid:hover { background: #f0bb4a; }
+  .btn.ghost { border: 1.5px solid rgba(255,255,255,.35); color: #fff; }
+  .btn.ghost:hover { border-color: #fff; }
+  .portrait { position: relative; justify-self: end; width: min(100%, 390px); }
+  .portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 18px; position: relative; z-index: 1; }
+  .portrait::before { content: ""; position: absolute; inset: 22px -22px -22px 22px; border: 2px solid var(--sun); border-radius: 18px; }
+  .portrait figcaption { position: absolute; z-index: 2; left: -26px; bottom: 34px; background: var(--surface); color: var(--ink); padding: 10px 16px; border-radius: 12px; font-size: .92rem; font-weight: 600; box-shadow: 0 12px 30px rgba(0,0,0,.25); }
+  .portrait figcaption span { display: block; font-weight: 400; color: var(--muted); font-size: .85rem; }
+  .wage { position: absolute; left: 0; right: 0; bottom: 0; height: 20%; z-index: 1; opacity: .4; pointer-events: none; }
+  .wage svg { width: 100%; height: 100%; }
+  .wage path { fill: none; stroke: var(--celeste); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .wage .note { position: absolute; right: 28px; bottom: 18px; font-size: .8rem; color: var(--muted-dark); }
+  .scroll-cue { position: absolute; left: 50%; bottom: 26px; z-index: 3; transform: translateX(-50%); color: var(--muted-dark); font-size: .85rem; text-decoration: none; }
 
   /* Sections */
-  section { padding: 72px 0; border-top: 1px solid var(--rule); }
-  .split { display: grid; grid-template-columns: 260px 1fr; gap: 48px; }
-  section h2 { font-size: clamp(1.6rem, 2.8vw, 2.1rem); }
-  .prose { max-width: var(--measure); }
-  .prose p:last-child { margin-bottom: 0; }
+  .sec { padding: 120px 0; }
+  .kicker { color: var(--celeste-deep); font-weight: 600; margin: 0 0 14px; }
+  .sec h2 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); font-weight: 700; max-width: 18ch; }
+
+  /* Why */
+  .why .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; margin-top: 8px; }
+  .why .big { font-family: "Bricolage Grotesque", sans-serif; font-size: clamp(1.5rem, 2.6vw, 2.05rem); line-height: 1.3; font-weight: 500; }
+  .why .big mark { background: linear-gradient(transparent 62%, rgba(226,167,46,.45) 0); color: inherit; padding: 0 2px; }
+  .why .body { color: var(--muted); font-size: 1.1rem; max-width: 52ch; padding-top: 6px; }
 
   /* Questions */
-  .questions { list-style: none; margin: 0; padding: 0; }
-  .questions li { padding: 22px 0 22px 28px; border-bottom: 1px solid var(--rule); position: relative; }
-  .questions li:first-child { padding-top: 4px; }
-  .questions li:first-child::before { top: 14px; }
-  .questions li::before { content: ""; position: absolute; left: 0; top: 32px; width: 11px; height: 11px; border-radius: 50%; }
-  .questions li.done::before { background: var(--celeste); }
-  .questions li.next::before { border: 2px solid var(--sun); }
-  .questions q { display: block; font-family: "Spectral", Georgia, serif; font-size: clamp(1.25rem, 2.2vw, 1.55rem); font-weight: 500; line-height: 1.3; quotes: none; }
-  .questions .status { display: block; color: var(--muted); font-size: .95rem; margin-top: 6px; }
-  .questions .status a { color: var(--ink); font-weight: 600; }
-  .after { color: var(--muted); margin-top: 24px; max-width: var(--measure); }
+  .questions { background: var(--surface); }
+  .questions .head { display: flex; justify-content: space-between; align-items: end; gap: 32px; flex-wrap: wrap; margin-bottom: 56px; }
+  .questions .legend { display: flex; gap: 22px; color: var(--muted); font-size: .95rem; }
+  .questions .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }
+  .questions .legend .l-done::before { background: var(--celeste-deep); }
+  .questions .legend .l-next::before { border: 2px solid var(--sun); width: 8px; height: 8px; }
+  .qgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+  .q { border-radius: 18px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; min-height: 250px; text-decoration: none; position: relative; overflow: hidden; }
+  .q h3 { font-size: clamp(1.35rem, 2vw, 1.65rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .q .meta { margin-top: 24px; font-size: .95rem; }
+  .q.done { grid-column: span 3; background: var(--night); color: #fff; transition: transform .25s; }
+  .q.done:hover { transform: translateY(-4px); }
+  .q.done img { position: absolute; right: -40px; bottom: -30px; width: 62%; border-radius: 10px; opacity: .22; transition: opacity .3s; }
+  .q.done:hover img { opacity: .38; }
+  .q.done h3, .q.done .meta { position: relative; z-index: 1; max-width: 26ch; }
+  .q.done .meta { color: var(--celeste); font-weight: 600; }
+  .q.next { grid-column: span 2; background: var(--paper); border: 1.5px dashed #c8cfda; min-height: 200px; }
+  .q.next .meta { color: #9a7210; font-weight: 600; }
+  .more { margin-top: 36px; color: var(--muted); }
+  .more a { color: var(--ink); font-weight: 600; text-decoration-color: var(--sun); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+  /* Path */
+  .path ol { list-style: none; margin: 64px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .path ol::before { content: ""; position: absolute; left: 0; right: 0; top: 13px; height: 2px; background: linear-gradient(90deg, var(--celeste-deep) 0 25%, var(--rule) 25%); }
+  .path li { position: relative; padding: 46px 28px 0 0; }
+  .path li::before { content: ""; position: absolute; top: 4px; left: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); border: 2px solid var(--rule); }
+  .path li.now::before { background: var(--celeste-deep); border-color: var(--celeste-deep); box-shadow: 0 0 0 6px rgba(47,124,192,.18); }
+  .path .when { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 1.35rem; display: block; margin-bottom: 6px; }
+  .path li p { color: var(--muted); margin: 0; }
+  .path .aside { margin-top: 56px; max-width: 60ch; color: var(--muted); font-size: 1.05rem; }
 
   /* Off the clock */
-  .offclock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
-  .offclock h3 { font-family: "Public Sans", sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
-  .offclock p { color: var(--muted); margin: 0; }
-  .offclock em { color: var(--ink); font-style: italic; }
+  .off { background: var(--night); color: #fff; }
+  .off .kicker { color: var(--celeste); }
+  .off-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 24px; margin-top: 56px; }
+  .tile { background: var(--night-2); border-radius: 20px; padding: 32px; }
+  .tile h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+  .tile p { color: var(--muted-dark); margin: 0; }
+  .tile.books { grid-row: span 2; display: flex; flex-direction: column; }
+  .shelf { margin-top: auto; padding-top: 34px; display: flex; align-items: flex-end; gap: 6px; border-bottom: 6px solid #2c3e63; min-height: 250px; }
+  .spine { writing-mode: vertical-rl; transform: rotate(180deg); border-radius: 4px 4px 2px 2px; padding: 14px 0; width: 44px; display: flex; align-items: center; justify-content: flex-start; font-weight: 600; font-size: .88rem; color: #fff; transition: transform .25s; cursor: default; }
+  .spine:hover { transform: rotate(180deg) translateY(12px); }
+  .spine small { font-weight: 400; opacity: .75; margin-top: 8px; }
+  .s1 { height: 230px; background: #b9772b; }
+  .s2 { height: 186px; background: #7a2f2f; }
+  .s3 { height: 204px; background: #3b6f8f; }
+  .s4 { height: 176px; background: #c2552d; }
+  .s5 { height: 214px; background: #2f4a3a; }
+  .s6 { height: 196px; background: #5b3a6e; }
+  .s7 { height: 168px; background: #8c6a2f; }
+  .s8 { height: 222px; background: #34465f; }
+  .eq { display: flex; align-items: flex-end; gap: 5px; height: 38px; margin-bottom: 18px; }
+  .eq i { width: 7px; background: var(--sun); border-radius: 2px; height: 30%; }
+  .tile.music:hover .eq i, .eq.play i { animation: eq 1s ease-in-out infinite alternate; }
+  .eq i:nth-child(2) { animation-delay: -.3s !important; } .eq i:nth-child(3) { animation-delay: -.6s !important; } .eq i:nth-child(4) { animation-delay: -.15s !important; } .eq i:nth-child(5) { animation-delay: -.45s !important; }
+  @keyframes eq { from { height: 20%; } to { height: 100%; } }
 
-  footer { border-top: 1px solid var(--rule); padding: 56px 0 64px; }
-  footer h2 { font-size: clamp(1.6rem, 2.8vw, 2.1rem); margin-bottom: 14px; }
-  footer p { color: var(--muted); max-width: var(--measure); }
+  /* Contact */
+  .contact { text-align: center; padding: 130px 0; }
+  .contact img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 0 auto 28px; border: 3px solid var(--sun); }
+  .contact h2 { font-size: clamp(2.4rem, 5vw, 4rem); max-width: 16ch; margin: 0 auto; }
+  .contact p { color: var(--muted); max-width: 46ch; margin: 22px auto 34px; font-size: 1.1rem; }
+  .contact .btns { justify-content: center; }
+  .contact .btn.dark { background: var(--night); color: #fff; }
+  .contact .btn.line { border: 1.5px solid #c3cad6; color: var(--ink); }
+  footer { border-top: 1px solid var(--rule); padding: 26px 0 34px; color: var(--muted); font-size: .9rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
 
-  @media (max-width: 860px) {
-    .hero { grid-template-columns: 1fr; gap: 36px; padding: 40px 0 56px; }
-    .photo { order: -1; justify-self: start; width: 220px; }
-    .photo::before { inset: 12px -12px -12px 12px; }
-    .split { grid-template-columns: 1fr; gap: 20px; }
-    .offclock { grid-template-columns: 1fr; gap: 26px; }
-    section { padding: 56px 0; }
+  /* Reveal on scroll */
+  .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .js .hero .reveal { transition-duration: 1s; }
+  .js .wage path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .js .wage.in path { animation: draw 3s ease-out .4s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .js .wage path { stroke-dasharray: none; }
+    .js .wage.in path { animation: none; }
+    .hero .ask .caret, .eq i { animation: none !important; }
+    .btn:hover, .q.done:hover, .spine:hover { transform: none; }
+    .spine:hover { transform: rotate(180deg); }
+  }
+
+  @media (max-width: 900px) {
+    .nav ul { display: none; }
+    .hero { padding: 100px 0 170px; align-items: flex-start; }
+    .wage { height: 14%; }
+    .scroll-cue { display: none; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
+    .portrait { order: -1; justify-self: start; width: 230px; }
+    .portrait::before { inset: 14px -14px -14px 14px; }
+    .portrait figcaption { left: auto; right: -24px; bottom: 18px; }
+    .sec { padding: 84px 0; }
+    .why .grid { grid-template-columns: 1fr; gap: 28px; }
+    .qgrid { grid-template-columns: 1fr; }
+    .q.done, .q.next { grid-column: auto; min-height: 0; }
+    .q.done { min-height: 230px; }
+    .path ol { grid-template-columns: 1fr; gap: 30px; }
+    .path ol::before { left: 9px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: linear-gradient(180deg, var(--celeste-deep) 0 22%, var(--rule) 22%); }
+    .path li { padding: 0 0 0 44px; }
+    .path li::before { top: 2px; }
+    .off-grid { grid-template-columns: 1fr; }
+    .tile.books { grid-row: auto; }
+    .shelf { gap: 4px; min-height: 210px; }
+    .spine { width: 29px; font-size: .74rem; padding: 10px 0; }
+    .tile { padding: 24px; }
+    .off-grid > * { min-width: 0; }
+    .s1,.s2,.s3,.s4,.s5,.s6,.s7,.s8 { max-height: 200px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
+<script>document.documentElement.classList.add('js');</script>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="me" href="#top"><img src="assets/fernando.jpg" alt="">Fernando Aquilino</a>
+    <ul>
+      <li><a href="#why">Why economics</a></li>
+      <li><a href="#questions">Questions</a></li>
+      <li><a href="#path">Path</a></li>
+      <li><a href="#off">Off the clock</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
     <div>
-      <p class="role">Economics student, Universidad de Buenos Aires</p>
-      <h1>Hi, I'm Fernando.</h1>
-      <p class="lede">I study economics to understand why Argentina works the way it does, and I use data and econometrics to look for answers.</p>
-      <div class="links">
-        <a class="primary" href="https://fernando-aquilino.github.io/economic-data-projects/">See my projects</a>
-        <a href="https://www.linkedin.com/in/fernando-aquilino-b6b3241a4/">LinkedIn</a>
-        <a href="https://github.com/fernando-aquilino">GitHub</a>
+      <p class="ask reveal" aria-hidden="true"><span id="ask">Why did inflation hit 200%?</span><span class="caret"></span></p>
+      <h1 class="reveal" style="--d:.15s">I study economics to find out.</h1>
+      <p class="sub reveal" style="--d:.3s">I'm Fernando, an economics student at the Universidad de Buenos Aires. I use data and econometrics to ask better questions about Argentina.</p>
+      <div class="btns reveal" style="--d:.45s">
+        <a class="btn solid" href="#questions">See what I'm working on</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/fernando-aquilino-b6b3241a4/">LinkedIn</a>
       </div>
     </div>
-    <figure class="photo" style="margin:0">
+    <figure class="portrait reveal" style="--d:.25s; margin:0">
       <img src="assets/fernando-tall.jpg" alt="Portrait of Fernando Aquilino" width="720" height="900">
+      <figcaption>Fernando Aquilino<span>Economics, UBA, class of 2027</span></figcaption>
     </figure>
-  </header>
+  </div>
+  <div class="wage reveal" id="wage" aria-hidden="true">
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none"><path pathLength="1" d="M0.0,36.8 L8.9,34.3 L17.9,36.6 L26.8,29.1 L35.7,34.8 L44.6,32.6 L53.6,29.4 L62.5,14.2 L71.4,17.9 L80.4,19.7 L89.3,10.7 L98.2,10.0 L107.1,27.0 L116.1,22.5 L125.0,26.5 L133.9,27.4 L142.9,25.9 L151.8,27.7 L160.7,44.9 L169.6,47.3 L178.6,57.1 L187.5,82.5 L196.4,82.0 L205.4,87.8 L214.3,92.9 L223.2,92.1 L232.1,92.1 L241.1,86.7 L250.0,92.9 L258.9,92.4 L267.9,97.3 L276.8,87.4 L285.7,97.6 L294.6,110.5 L303.6,101.0 L312.5,113.2 L321.4,121.9 L330.4,97.1 L339.3,74.6 L348.2,88.8 L357.1,95.3 L366.1,102.2 L375.0,101.0 L383.9,91.3 L392.9,102.7 L401.8,107.2 L410.7,102.0 L419.6,110.5 L428.6,119.1 L437.5,125.9 L446.4,114.0 L455.4,115.6 L464.3,105.6 L473.2,116.3 L482.1,113.0 L491.1,106.4 L500.0,107.6 L508.9,105.7 L517.9,106.6 L526.8,102.4 L535.7,112.6 L544.6,109.1 L553.6,108.4 L562.5,102.9 L571.4,104.1 L580.4,107.7 L589.3,106.3 L598.2,115.9 L607.1,127.0 L616.1,125.8 L625.0,130.8 L633.9,128.0 L642.9,127.7 L651.8,137.6 L660.7,129.9 L669.6,121.2 L678.6,115.5 L687.5,123.5 L696.4,112.9 L705.4,107.1 L714.3,135.9 L723.2,147.5 L732.1,134.2 L741.1,162.3 L750.0,222.7 L758.9,238.6 L767.9,250.0 L776.8,241.7 L785.7,218.4 L794.6,207.0 L803.6,200.2 L812.5,190.0 L821.4,191.4 L830.4,189.7 L839.3,174.0 L848.2,173.1 L857.1,176.6 L866.1,174.0 L875.0,157.3 L883.9,156.4 L892.9,155.9 L901.8,154.3 L910.7,151.0 L919.6,146.3 L928.6,148.9 L937.5,152.0 L946.4,150.9 L955.4,156.7 L964.3,163.2 L973.2,171.8 L982.1,160.1 L991.1,164.6 L1000.0,161.5"/></svg>
+    <span class="note">Real wages in Argentina, 2016 to 2026</span>
+  </div>
+  <a class="scroll-cue" href="#why">Scroll</a>
+</header>
 
-  <main>
-    <section aria-labelledby="why">
-      <div class="split">
-        <h2 id="why">Why economics</h2>
-        <div class="prose">
-          <p>Like most Argentines, I grew up with the news on: inflation at 200%, the dollar in every conversation, one crisis after another. At some point the headlines weren't enough. I wanted to know why this keeps happening.</p>
-          <p>That curiosity is what got me into economics. What I found at university wasn't a recipe for fixing Argentina. It was something more useful: a way to tell which questions are the right ones, and the tools to test them against real data. The answers are hard, because every country's problems are its own. But asking the right question is where it starts, and that's what my projects try to do.</p>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="questions">
-      <div class="split">
-        <h2 id="questions">Questions I keep coming back to</h2>
-        <div>
-          <ul class="questions">
-            <li class="done">
-              <q>What happened to real wages after the December 2023 devaluation?</q>
-              <span class="status">Explored in <a href="https://github.com/fernando-aquilino/economic-data-projects/tree/main/ripte-econometric-analysis">Real wages in Argentina</a>, a time series model in Stata.</span>
-            </li>
-            <li class="done">
-              <q>Which sectors take the hardest hit in a crisis, and how long do they take to recover?</q>
-              <span class="status">Explored in <a href="https://github.com/fernando-aquilino/economic-data-projects/tree/main/Emae_analysis">Sector shocks in economic activity</a>, with Python and Power BI.</span>
-            </li>
-            <li class="next">
-              <q>Why does Argentina keep coming back to high inflation?</q>
-              <span class="status">Next on my list.</span>
-            </li>
-            <li class="next">
-              <q>How much of a devaluation ends up in prices, and how fast?</q>
-              <span class="status">Next on my list.</span>
-            </li>
-            <li class="next">
-              <q>Why does the economy grow in stop-and-go cycles?</q>
-              <span class="status">Next on my list.</span>
-            </li>
-          </ul>
-          <p class="after">I've also worked on business analytics with SQL and Power BI. Everything, with code and data, is in <a href="https://fernando-aquilino.github.io/economic-data-projects/">my portfolio</a>.</p>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="heading">
-      <div class="split">
-        <h2 id="heading">Where I'm heading</h2>
-        <div class="prose">
-          <p>I expect to graduate in 2027 and I'm looking for my first role in the field. What draws me most is macroeconomic research, especially work with a strong econometric side, whether at an economic consultancy or a bank.</p>
-          <p>Further down the road I'd like to do a master's, in Argentina or abroad, and keep growing toward leading economic research one day.</p>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="off">
-      <div class="split">
-        <h2 id="off">Off the clock</h2>
-        <div class="offclock">
-          <div>
-            <h3>Music</h3>
-            <p>I play electric bass. My soundtrack is Argentine rock from the 70s, 80s and 90s, plus rock from abroad from the 2000s on.</p>
-          </div>
-          <div>
-            <h3>Books</h3>
-            <p><em>Dune</em> is my favorite novel. I love the classic dystopias, and lately I've been reading horror: Lovecraft, Mariana Enríquez, Agustina Bazterrica, and some of Cortázar's short stories.</p>
-          </div>
-          <div>
-            <h3>Gym and walks</h3>
-            <p>Lifting weights clears my head. So do long walks, with or without music.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer aria-labelledby="contact">
-    <div class="split">
-      <h2 id="contact">Let's talk</h2>
-      <div>
-        <p>If you work in macro research, banking or data and want to chat, the best way to reach me is on LinkedIn.</p>
-        <div class="links">
-          <a class="primary" href="https://www.linkedin.com/in/fernando-aquilino-b6b3241a4/">Message me on LinkedIn</a>
-          <a href="https://github.com/fernando-aquilino">GitHub</a>
-          <a href="https://fernando-aquilino.github.io/economic-data-projects/">Portfolio</a>
+<main>
+  <section class="sec why" id="why">
+    <div class="wrap">
+      <p class="kicker reveal">Why economics</p>
+      <div class="grid">
+        <p class="big reveal">Like most Argentines, I grew up with the news on. Inflation, the dollar, one crisis after another. At some point the headlines weren't enough, and I wanted to know <mark>why this keeps happening.</mark></p>
+        <div class="body reveal" style="--d:.15s">
+          <p>That curiosity is what got me into economics. What I found at university wasn't a recipe for fixing Argentina. It was something more useful: a way to tell which questions are the right ones, and the tools to test them against real data.</p>
+          <p>The answers are hard, because every country's problems are its own. But asking the right question is where it starts. That's what my projects try to do.</p>
         </div>
       </div>
     </div>
-  </footer>
-</div>
+  </section>
+
+  <section class="sec questions" id="questions">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="kicker reveal">Questions</p>
+          <h2 class="reveal">The questions I keep coming back to</h2>
+        </div>
+        <div class="legend reveal"><span class="l-done">Explored with data</span><span class="l-next">Next on my list</span></div>
+      </div>
+      <div class="qgrid">
+        <a class="q done reveal" href="https://github.com/fernando-aquilino/economic-data-projects/tree/main/ripte-econometric-analysis">
+          <img src="assets/ripte.png" alt="" loading="lazy">
+          <h3>What happened to real wages after the December 2023 devaluation?</h3>
+          <span class="meta">Time series econometrics in Stata</span>
+        </a>
+        <a class="q done reveal" style="--d:.12s" href="https://github.com/fernando-aquilino/economic-data-projects/tree/main/Emae_analysis">
+          <img src="assets/emae.png" alt="" loading="lazy">
+          <h3>Which sectors take the hardest hit in a crisis, and how long do they take to recover?</h3>
+          <span class="meta">Python pipeline and Power BI dashboard</span>
+        </a>
+        <div class="q next reveal">
+          <h3>Why does Argentina keep coming back to high inflation?</h3>
+          <span class="meta">Next on my list</span>
+        </div>
+        <div class="q next reveal" style="--d:.1s">
+          <h3>How much of a devaluation ends up in prices, and how fast?</h3>
+          <span class="meta">Next on my list</span>
+        </div>
+        <div class="q next reveal" style="--d:.2s">
+          <h3>Why does the economy grow in stop-and-go cycles?</h3>
+          <span class="meta">Next on my list</span>
+        </div>
+      </div>
+      <p class="more reveal">I've also done business analytics with SQL and Power BI. Every project, with code and data, is in <a href="https://fernando-aquilino.github.io/economic-data-projects/">my portfolio</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec path" id="path">
+    <div class="wrap">
+      <p class="kicker reveal">Where I'm heading</p>
+      <h2 class="reveal">From questions to a career in macro research</h2>
+      <ol>
+        <li class="now reveal"><span class="when">Now</span><p>Studying economics at UBA and building data projects on the Argentine economy.</p></li>
+        <li class="reveal" style="--d:.12s"><span class="when">2027</span><p>Graduating with a degree in economics.</p></li>
+        <li class="reveal" style="--d:.24s"><span class="when">Next</span><p>A first role in macroeconomic research, at an economic consultancy or a bank.</p></li>
+        <li class="reveal" style="--d:.36s"><span class="when">Later</span><p>A master's, in Argentina or abroad, and someday leading economic research.</p></li>
+      </ol>
+      <p class="aside reveal">What I enjoy most is the econometric side of macro: building a model, testing it against the data, and being honest about what it can and can't tell us.</p>
+    </div>
+  </section>
+
+  <section class="sec off" id="off">
+    <div class="wrap">
+      <p class="kicker reveal">Off the clock</p>
+      <h2 class="reveal">Bass lines, dystopias and the gym</h2>
+      <div class="off-grid">
+        <div class="tile books reveal">
+          <h3>On my shelf</h3>
+          <p><em>Dune</em> is my favorite novel. I love the classic dystopias, and lately I've been getting into horror and Argentine authors.</p>
+          <div class="shelf" aria-label="Books and authors I've been reading">
+            <span class="spine s1">Dune <small>Herbert</small></span>
+            <span class="spine s2">1984 <small>Orwell</small></span>
+            <span class="spine s3">Brave New World</span>
+            <span class="spine s4">Fahrenheit 451</span>
+            <span class="spine s5">Lovecraft</span>
+            <span class="spine s6">Mariana Enríquez</span>
+            <span class="spine s7">Bazterrica</span>
+            <span class="spine s8">Cortázar</span>
+          </div>
+        </div>
+        <div class="tile music reveal" style="--d:.12s">
+          <div class="eq" id="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <h3>I play bass</h3>
+          <p>My soundtrack is Argentine rock from the 70s, 80s and 90s, plus rock from abroad from the 2000s on.</p>
+        </div>
+        <div class="tile reveal" style="--d:.24s">
+          <h3>Gym and long walks</h3>
+          <p>Lifting weights clears my head. So do long walks, with or without music.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <img class="reveal" src="assets/fernando.jpg" alt="">
+      <h2 class="reveal">Let's talk about the economy.</h2>
+      <p class="reveal">If you work in macro research, banking or data and want to chat, I'd love to hear from you.</p>
+      <div class="btns reveal">
+        <a class="btn dark" href="https://www.linkedin.com/in/fernando-aquilino-b6b3241a4/">Message me on LinkedIn</a>
+        <a class="btn line" href="https://fernando-aquilino.github.io/economic-data-projects/">See my portfolio</a>
+        <a class="btn line" href="https://github.com/fernando-aquilino">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Fernando Aquilino, Buenos Aires</span>
+    <span>Built with care, and a lot of questions.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Nav background after the hero
+  var nav = document.getElementById('nav');
+  var hero = document.getElementById('top');
+  function onScroll() { nav.classList.toggle('solid', window.scrollY > hero.offsetHeight - 80); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Equalizer plays while the music tile is on screen
+  var eq = document.getElementById('eq');
+  if ('IntersectionObserver' in window && !reduce) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { eq.classList.toggle('play', e.isIntersecting); });
+    }, { threshold: 0.6 }).observe(eq);
+  }
+
+  // Typed questions in the hero
+  var qs = [
+    'Why did inflation hit 200%?',
+    'Why is everyone always watching the dollar?',
+    'What happens to wages after a devaluation?',
+    'Why does every recovery end in a crisis?'
+  ];
+  var el = document.getElementById('ask');
+  if (reduce) return;
+  var i = 0, pos = qs[0].length, del = true;
+  function tick() {
+    var q = qs[i];
+    if (del) {
+      pos--; el.textContent = q.slice(0, pos);
+      if (pos === 0) { del = false; i = (i + 1) % qs.length; }
+      setTimeout(tick, 28);
+    } else {
+      var n = qs[i]; pos++; el.textContent = n.slice(0, pos);
+      if (pos === n.length) { del = true; setTimeout(tick, 2600); }
+      else setTimeout(tick, 55);
+    }
+  }
+  setTimeout(tick, 3200);
+})();
+</script>
 </body>
 </html>
